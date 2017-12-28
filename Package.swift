@@ -20,7 +20,7 @@ let package = Package(
     targets: [
         .target(
             name: "OpenSubtitles",
-            dependencies: ["XMLRPC", "Compression", "Client"]),
+            dependencies: ["XMLRPC", "Compression", "HTTP"]),
         .testTarget(
             name: "OpenSubtitlesTests",
             dependencies: ["OpenSubtitles", "Test"]),

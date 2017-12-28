@@ -1,14 +1,9 @@
 import HTTP
 
-extension ContentType {
-    static let xml = ContentType(mediaType: .text(.xml))!
-}
-
 extension Request {
-    init(url: URL, xml: String) {
-        var request = Request(method: .post, url: url)
-        request.contentType = .xml
-        request.rawBody = [UInt8](xml.utf8)
-        self = request
+    convenience init(url: URL, xml: String) {
+        self.init(method: .post, url: url)
+        self.contentType = .xml
+        self.bytes = [UInt8](xml.utf8)
     }
 }
