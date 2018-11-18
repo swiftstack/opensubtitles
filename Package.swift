@@ -5,6 +5,9 @@ let package = Package(
     name: "OpenSubtitles",
     dependencies: [
         .package(
+            url: "https://github.com/swift-stack/aio.git",
+            .branch("master")),
+        .package(
             url: "https://github.com/swift-stack/http.git",
             .branch("master")),
         .package(
@@ -20,7 +23,7 @@ let package = Package(
     targets: [
         .target(
             name: "OpenSubtitles",
-            dependencies: ["XMLRPC", "Compression", "HTTP"]),
+            dependencies: ["XMLRPC", "Compression", "HTTP", "File"]),
         .testTarget(
             name: "OpenSubtitlesTests",
             dependencies: ["OpenSubtitles", "Test"]),

@@ -1,6 +1,7 @@
 import XMLRPC
 import Compression
 
+// FIXME: base64
 import struct Foundation.Data
 
 extension Array where Element == Subtitles {

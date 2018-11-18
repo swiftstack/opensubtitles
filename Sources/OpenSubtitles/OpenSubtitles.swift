@@ -2,8 +2,6 @@ import HTTP
 import Stream
 import XMLRPC
 
-import struct Foundation.Data
-
 public class OpenSubtitles {
     let path: String
     let client: Client
@@ -35,7 +33,7 @@ public class OpenSubtitles {
         forFileAtPath path: String
     ) throws -> String {
         let hash = try Hash.calculate(path: path)
-        return String(format:"%016qx", arguments: [hash])
+        return String(hash, radix: 16)
     }
 
     // TODO: Update to stream http api
