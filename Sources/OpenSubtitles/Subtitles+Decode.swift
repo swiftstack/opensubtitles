@@ -1,8 +1,6 @@
 import XMLRPC
+import Base64
 import Compression
-
-// FIXME: base64
-import struct Foundation.Data
 
 extension Array where Element == Subtitles {
     init(from items: [RPCValue]) throws {
@@ -45,10 +43,10 @@ extension Subtitles {
         let id = try values.decode("idsubtitlefile", as: String.self)
         let base64 = try values.decode("data", as: String.self)
 
-        guard let encoded = Data(base64Encoded: base64) else {
+        guard let bytes = [UInt8](decodingBase64: base64) else {
             throw DecodeError.invalidData
         }
-        let decoded = try GZip.decode(bytes: [UInt8](encoded))
+        let decoded = try GZip.decode(bytes: bytes)
         let string = String(decoding: decoded, as: UTF8.self)
 
         self.id = id
