@@ -21,7 +21,7 @@ extension OpenSubtitles {
             guard length >= chunkSize else {
                 throw Error.fileIsToSmall
             }
-            
+
             hash = UInt64(length)
 
             func update(_ bytes: UnsafeRawBufferPointer) {
@@ -30,9 +30,9 @@ extension OpenSubtitles {
 
             let stream = try file.open()
 
-            try stream.read(count: chunkSize) { update($0) }
+            try stream.read(count: chunkSize, body: update)
             try stream.seek(to: -chunkSize, from: .end)
-            try stream.read(count: chunkSize) { update($0) }
+            try stream.read(count: chunkSize, body: update)
 
             return hash
         }
