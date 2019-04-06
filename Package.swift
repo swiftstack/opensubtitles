@@ -11,7 +11,7 @@ let package = Package(
             url: "https://github.com/swift-stack/http.git",
             .branch("master")),
         .package(
-            url: "https://github.com/swift-stack/xml-rpc.git",
+            url: "https://github.com/swift-stack/rpc.git",
             .branch("master")),
         .package(
             url: "https://github.com/swift-stack/compression.git",
