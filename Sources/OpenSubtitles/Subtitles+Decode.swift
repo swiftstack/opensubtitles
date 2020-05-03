@@ -1,6 +1,6 @@
 import XMLRPC
 import Base64
-import Compression
+import DCompression
 
 extension Array where Element == Subtitles {
     init(from items: [RPCValue]) throws {
