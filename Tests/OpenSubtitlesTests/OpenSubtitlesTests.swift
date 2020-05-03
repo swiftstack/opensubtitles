@@ -9,12 +9,10 @@ class OpenSubtitlesTests: TestCase {
                 .deletingLastComponent
                 .appending("test_hash")
             let hash = try OpenSubtitles.calculateHash(forFileAtPath: path.string)
-            assertEqual(hash, "94fdc97bd46b7804")
+            expect(hash == "94fdc97bd46b7804")
 
-            assertThrowsError(try OpenSubtitles.calculateHash(
-                forFileAtPath: Path(#file).string)) { error in
-                    let error = error as? OpenSubtitles.Hash.Error
-                    assertEqual(error, .fileIsToSmall)
+            expect(throws: OpenSubtitles.Hash.Error.fileIsToSmall) {
+                try OpenSubtitles.calculateHash(forFileAtPath: Path(#file).string)
             }
         }
     }
