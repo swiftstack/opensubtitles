@@ -10,7 +10,7 @@ extension OpenSubtitles {
 
         static let chunkSize: Int = 65_536
 
-        static func calculate(path: String) throws -> UInt64 {
+        static func calculate(path: Path) throws -> UInt64 {
             var hash: UInt64 = 0
 
             let file = try File(at: path)

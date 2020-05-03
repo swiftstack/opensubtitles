@@ -1,3 +1,4 @@
+import File
 import HTTP
 import Stream
 import XMLRPC
@@ -30,7 +31,7 @@ public class OpenSubtitles {
     }
 
     public static func calculateHash(
-        forFileAtPath path: String
+        forFileAt path: Path
     ) throws -> String {
         let hash = try Hash.calculate(path: path)
         return String(hash, radix: 16)

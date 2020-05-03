@@ -8,11 +8,11 @@ class OpenSubtitlesTests: TestCase {
             let path = Path(#file)
                 .deletingLastComponent
                 .appending("test_hash")
-            let hash = try OpenSubtitles.calculateHash(forFileAtPath: path.string)
+            let hash = try OpenSubtitles.calculateHash(forFileAt: path)
             expect(hash == "94fdc97bd46b7804")
 
             expect(throws: OpenSubtitles.Hash.Error.fileIsToSmall) {
-                try OpenSubtitles.calculateHash(forFileAtPath: Path(#file).string)
+                try OpenSubtitles.calculateHash(forFileAt: Path(#file))
             }
         }
     }
