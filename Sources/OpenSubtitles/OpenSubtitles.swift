@@ -1,7 +1,7 @@
-import File
 import HTTP
 import Stream
 import XMLRPC
+import FileSystem
 
 public class OpenSubtitles {
     let path: String

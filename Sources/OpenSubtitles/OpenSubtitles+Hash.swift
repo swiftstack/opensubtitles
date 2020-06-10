@@ -1,4 +1,4 @@
-import File
+import FileSystem
 
 extension OpenSubtitles {
     public struct Hash {

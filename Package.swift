@@ -18,7 +18,7 @@ let package = Package(
                 "HTTP",
                 "DCompression",
                 .product(name: "XMLRPC", package: "RPC"),
-                .product(name: "File", package: "AIO"),
+                .product(name: "FileSystem", package: "AIO"),
                 .product(name: "Base64", package: "Radix")]),
         .testTarget(
             name: "OpenSubtitlesTests",

@@ -1,11 +1,11 @@
 import Test
-import File
+import FileSystem
 @testable import OpenSubtitles
 
 class OpenSubtitlesTests: TestCase {
     func testHash() {
         scope {
-            let path = Path(#file)
+            let path = try Path(#file)
                 .deletingLastComponent
                 .appending("test_hash")
             let hash = try OpenSubtitles.calculateHash(forFileAt: path)
