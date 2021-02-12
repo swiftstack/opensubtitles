@@ -19,10 +19,16 @@ let package = Package(
                 "DCompression",
                 .product(name: "XMLRPC", package: "RPC"),
                 .product(name: "FileSystem", package: "AIO"),
-                .product(name: "Base64", package: "Radix")]),
+                .product(name: "Base64", package: "Radix")],
+            swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"])
+            ]),
         .testTarget(
             name: "OpenSubtitlesTests",
-            dependencies: ["OpenSubtitles", "Test"]),
+            dependencies: ["OpenSubtitles", "Test"],
+            swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"])
+            ]),
     ]
 )
 
