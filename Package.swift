@@ -6,8 +6,8 @@ let package = Package(
     dependencies: [
         .package(name: "HTTP"),
         .package(name: "RPC"),
-        .package(name: "AIO"),
         .package(name: "Radix"),
+        .package(name: "FileSystem"),
         .package(name: "DCompression"),
         .package(name: "Test")
     ],
@@ -17,8 +17,8 @@ let package = Package(
             dependencies: [
                 "HTTP",
                 "DCompression",
+                "FileSystem",
                 .product(name: "XMLRPC", package: "RPC"),
-                .product(name: "FileSystem", package: "AIO"),
                 .product(name: "Base64", package: "Radix")],
             swiftSettings: [
                 .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"])
