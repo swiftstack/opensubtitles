@@ -23,9 +23,10 @@ let package = Package(
             swiftSettings: [
                 .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"])
             ]),
-        .testTarget(
-            name: "OpenSubtitlesTests",
+        .executableTarget(
+            name: "Tests/OpenSubtitles",
             dependencies: ["OpenSubtitles", "Test"],
+            path: "Tests/OpenSubtitles",
             swiftSettings: [
                 .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"])
             ]),
