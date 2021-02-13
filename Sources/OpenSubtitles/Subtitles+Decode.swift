@@ -3,15 +3,15 @@ import Base64
 import DCompression
 
 extension Array where Element == Subtitles {
-    init(from items: [RPCValue]) throws {
+    static func decode(from items: [RPCValue]) async throws -> Self {
         var subtitles = [Subtitles]()
         for item in items {
             guard let values = [String : RPCValue](item) else {
                 throw Subtitles.DecodeError.invalidStructValue(item)
             }
-            subtitles.append(try Subtitles(from: values))
+            subtitles.append(try await Subtitles.decode(from: values))
         }
-        self = subtitles
+        return subtitles
     }
 }
 
@@ -39,17 +39,18 @@ extension Subtitles {
         case invalidStructValue(RPCValue)
     }
 
-    init(from values: [String : RPCValue]) throws {
+    static func decode(
+        from values: [String : RPCValue]
+    ) async throws -> Subtitles {
         let id = try values.decode("idsubtitlefile", as: String.self)
         let base64 = try values.decode("data", as: String.self)
 
         guard let bytes = [UInt8](decodingBase64: base64) else {
             throw DecodeError.invalidData
         }
-        let decoded = try GZip.decode(bytes: bytes)
+        let decoded = try await GZip.decode(bytes: bytes)
         let string = String(decoding: decoded, as: UTF8.self)
 
-        self.id = id
-        self.content = string
+        return .init(id: id, content: string)
     }
 }

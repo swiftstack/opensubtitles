@@ -32,35 +32,35 @@ public class OpenSubtitles {
 
     public static func calculateHash(
         forFileAt path: Path
-    ) throws -> String {
-        let hash = try Hash.calculate(path: path)
+    ) async throws -> String {
+        let hash = try await Hash.calculate(path: path)
         return String(hash, radix: 16)
     }
 
     // TODO: Update to stream http api
-    func makeRequest(_ rpcRequest: RPCRequest) throws -> RPCResponse {
+    func makeRequest(_ rpcRequest: RPCRequest) async throws -> RPCResponse {
         let request = Request(url: URL(path: path), xml: rpcRequest.xmlCompact)
         request.userAgent = userAgent
 
-        let response = try client.makeRequest(request)
+        let response = try await client.makeRequest(request)
 
         guard let bytes = response.bytes else {
             throw Error.emptyResponse
         }
         let stream = InputByteStream(bytes)
-        return try RPCResponse(from: stream)
+        return try await RPCResponse.decode(from: stream)
     }
 
     func call(
         method: Method,
         with params: [RPCValue]
-    ) throws -> [String : RPCValue] {
+    ) async throws -> [String : RPCValue] {
         var params = params
         if let token = self.token {
             params.insert(.string(token), at: 0)
         }
         let request = RPCRequest(methodName: method.rawValue, params: params)
-        let response = try makeRequest(request)
+        let response = try await makeRequest(request)
         guard let value = response.params.first(where: { $0.isStruct }),
             let members = [String : RPCValue](value) else {
                 throw Error.invalidResponse
@@ -68,8 +68,8 @@ public class OpenSubtitles {
         return members
     }
 
-    public func login(username: String, password: String) throws {
-        let result = try call(method: .login, with: [
+    public func login(username: String, password: String) async throws {
+        let result = try await call(method: .login, with: [
             .string(username),
             .string(password),
             .string("en"),
@@ -84,8 +84,8 @@ public class OpenSubtitles {
     public func search(
         imdbId: Int,
         language: Language
-    ) throws -> [SubtitlesInfo] {
-        return try search(request: [
+    ) async throws -> [SubtitlesInfo] {
+        return try await search(request: [
             "sublanguageid": .string(language.rawValue),
             "imdbid": .int(imdbId)
         ])
@@ -94,15 +94,17 @@ public class OpenSubtitles {
     public func search(
         movieHash: String,
         language: Language
-    ) throws -> [SubtitlesInfo] {
-        return try search(request: [
+    ) async throws -> [SubtitlesInfo] {
+        return try await search(request: [
             "sublanguageid": .string(language.rawValue),
             "moviehash": .string(movieHash)
         ])
     }
 
-    private func search(request: [String: RPCValue]) throws -> [SubtitlesInfo] {
-        let result = try call(method: .search, with: [
+    private func search(
+        request: [String: RPCValue]
+    ) async throws -> [SubtitlesInfo] {
+        let result = try await call(method: .search, with: [
             .array([.struct(request)])
         ])
         guard let data = [RPCValue](result["data"]) else {
@@ -111,18 +113,18 @@ public class OpenSubtitles {
         return try [SubtitlesInfo](from: data)
     }
 
-    public func download(subtitlesIds: [String]) throws -> [Subtitles] {
-        let result = try call(method: .download, with: [
+    public func download(subtitlesIds: [String]) async throws -> [Subtitles] {
+        let result = try await call(method: .download, with: [
             .array(subtitlesIds.map({ .string($0) }))
         ])
         guard let items = [RPCValue](result["data"]) else {
             throw Error.emptyResponse
         }
-        return try [Subtitles](from: items)
+        return try await [Subtitles].decode(from: items)
     }
 
-    public func download(subtitlesId: String) throws -> Subtitles {
-        let items = try download(subtitlesIds: [subtitlesId])
+    public func download(subtitlesId: String) async throws -> Subtitles {
+        let items = try await download(subtitlesIds: [subtitlesId])
         guard items.count == 1 && items[0].id == subtitlesId else {
             throw Error.invalidResponse
         }

@@ -10,7 +10,7 @@ extension OpenSubtitles {
 
         static let chunkSize: Int = 65_536
 
-        static func calculate(path: Path) throws -> UInt64 {
+        static func calculate(path: Path) async throws -> UInt64 {
             var hash: UInt64 = 0
 
             let file = try File(at: path)
@@ -30,9 +30,9 @@ extension OpenSubtitles {
 
             let stream = try file.open()
 
-            try stream.read(count: chunkSize, body: update)
-            try stream.seek(to: -chunkSize, from: .end)
-            try stream.read(count: chunkSize, body: update)
+            try await stream.read(count: chunkSize, body: update)
+            try await stream.seek(to: -chunkSize, from: .end)
+            try await stream.read(count: chunkSize, body: update)
 
             return hash
         }
