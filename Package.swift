@@ -21,6 +21,7 @@ let package = Package(
                 .product(name: "XMLRPC", package: "RPC"),
                 .product(name: "Base64", package: "Radix")],
             swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"]),
                 .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"])
             ]),
         .executableTarget(
@@ -28,6 +29,7 @@ let package = Package(
             dependencies: ["OpenSubtitles", "Test"],
             path: "Tests/OpenSubtitles",
             swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"]),
                 .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"])
             ]),
     ]
