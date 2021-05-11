@@ -44,10 +44,9 @@ public class OpenSubtitles {
 
         let response = try await client.makeRequest(request)
 
-        guard let bytes = response.bytes else {
+        guard case .input(let stream) = response.body else {
             throw Error.emptyResponse
         }
-        let stream = InputByteStream(bytes)
         return try await RPCResponse.decode(from: stream)
     }
 
