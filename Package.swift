@@ -3,6 +3,11 @@ import PackageDescription
 
 let package = Package(
     name: "OpenSubtitles",
+    products: [
+        .library(
+            name: "OpenSubtitles",
+            targets: ["OpenSubtitles"])
+    ],
     dependencies: [
         .package(name: "HTTP"),
         .package(name: "RPC"),
