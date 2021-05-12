@@ -9,7 +9,7 @@ test.case("Hash") {
     let hash = try await OpenSubtitles.calculateHash(forFileAt: path)
     expect(hash == "94fdc97bd46b7804")
 
-    expect(throws: OpenSubtitles.Hash.Error.fileIsToSmall) {
+    await expect(throws: OpenSubtitles.Hash.Error.fileIsToSmall) {
         try await OpenSubtitles.calculateHash(forFileAt: Path(#file))
     }
 }
