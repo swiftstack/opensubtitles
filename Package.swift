@@ -6,7 +6,7 @@ let package = Package(
     products: [
         .library(
             name: "OpenSubtitles",
-            targets: ["OpenSubtitles"])
+            targets: ["OpenSubtitles"]),
     ],
     dependencies: [
         .package(name: "HTTP"),
@@ -14,7 +14,7 @@ let package = Package(
         .package(name: "Radix"),
         .package(name: "FileSystem"),
         .package(name: "DCompression"),
-        .package(name: "Test")
+        .package(name: "Test"),
     ],
     targets: [
         .target(
