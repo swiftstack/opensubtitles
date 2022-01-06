@@ -24,19 +24,12 @@ let package = Package(
                 "DCompression",
                 "FileSystem",
                 .product(name: "XMLRPC", package: "RPC"),
-                .product(name: "Base64", package: "Radix")],
-            swiftSettings: [
-                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"]),
-                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"])
-            ]),
+                .product(name: "Base64", package: "Radix")]),
         .executableTarget(
             name: "Tests/OpenSubtitles",
             dependencies: ["OpenSubtitles", "Test"],
             path: "Tests/OpenSubtitles",
-            swiftSettings: [
-                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"]),
-                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"])
-            ]),
+            resources: [.copy("test_hash")]),
     ]
 )
 
