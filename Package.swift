@@ -29,7 +29,8 @@ let package = Package(
                 .product(name: "Base64", package: "Radix"),
                 .product(name: "FileSystem", package: "filesystem"),
                 .product(name: "DCompression", package: "DCompression"),
-            ]),
+            ],
+            swiftSettings: swift6),
         .executableTarget(
             name: "Tests/OpenSubtitles",
             dependencies: [
@@ -37,9 +38,19 @@ let package = Package(
                 .product(name: "Test", package: "test"),
             ],
             path: "Tests/OpenSubtitles",
-            resources: [.copy("test_hash")]),
+            resources: [.copy("test_hash")],
+            swiftSettings: swift6),
     ]
 )
+
+let swift6: [SwiftSetting] = [
+    .enableUpcomingFeature("ConciseMagicFile"),
+    .enableUpcomingFeature("ForwardTrailingClosures"),
+    .enableUpcomingFeature("ExistentialAny"),
+    .enableUpcomingFeature("StrictConcurrency"),
+    .enableUpcomingFeature("ImplicitOpenExistentials"),
+    .enableUpcomingFeature("BareSlashRegexLiterals"),
+]
 
 // MARK: - custom package source
 
