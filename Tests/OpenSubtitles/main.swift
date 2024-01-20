@@ -2,7 +2,7 @@ import Test
 import FileSystem
 @testable import OpenSubtitles
 
-test.case("Hash") {
+test("Hash") {
     let path = try Path(#file)
         .deletingLastComponent
         .appending("test_hash")
@@ -14,4 +14,4 @@ test.case("Hash") {
     }
 }
 
-test.run()
+await run()
