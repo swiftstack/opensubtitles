@@ -4,7 +4,7 @@ extension Array where Element == SubtitlesInfo {
     init(from array: [RPCValue]) throws {
         var subtitles = [SubtitlesInfo]()
         for item in array {
-            guard let values = [String : RPCValue](item) else {
+            guard let values = [String: RPCValue](item) else {
                 throw SubtitlesInfo.DecodeError.invalidStructValue(item)
             }
             subtitles.append(try SubtitlesInfo(from: values))
@@ -37,7 +37,7 @@ extension SubtitlesInfo {
         case invalidStructValue(RPCValue)
     }
 
-    init(from values: [String : RPCValue]) throws {
+    init(from values: [String: RPCValue]) throws {
         let isHearing = try values.decode("SubHearingImpaired", as: String.self)
         let isHearingImpaired = isHearing == "1" ? true : false
         let encodingString = try values.decode("SubEncoding", as: String.self)

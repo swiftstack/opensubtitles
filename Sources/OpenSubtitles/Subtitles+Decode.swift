@@ -6,7 +6,7 @@ extension Array where Element == Subtitles {
     static func decode(from items: [RPCValue]) async throws -> Self {
         var subtitles = [Subtitles]()
         for item in items {
-            guard let values = [String : RPCValue](item) else {
+            guard let values = [String: RPCValue](item) else {
                 throw Subtitles.DecodeError.invalidStructValue(item)
             }
             subtitles.append(try await Subtitles.decode(from: values))
@@ -40,7 +40,7 @@ extension Subtitles {
     }
 
     static func decode(
-        from values: [String : RPCValue]
+        from values: [String: RPCValue]
     ) async throws -> Subtitles {
         let id = try values.decode("idsubtitlefile", as: String.self)
         let base64 = try values.decode("data", as: String.self)

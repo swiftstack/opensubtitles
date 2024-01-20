@@ -15,7 +15,7 @@ public enum Encoding {
 }
 
 extension Encoding: Equatable {
-    public static func ==(lhs: Encoding, rhs: Encoding) -> Bool {
+    public static func == (lhs: Encoding, rhs: Encoding) -> Bool {
         switch (lhs, rhs) {
         case (.ascii, .ascii): return true
         case (.utf8, .utf8): return true

@@ -7,7 +7,7 @@ public class OpenSubtitles {
     let path: String
     let client: Client
     let userAgent: String
-    var token: String? = nil
+    var token: String?
 
     public init(userAgent: String) throws {
         self.client = Client(host: "api.opensubtitles.org", port: 80)
@@ -53,7 +53,7 @@ public class OpenSubtitles {
     func call(
         method: Method,
         with params: [RPCValue]
-    ) async throws -> [String : RPCValue] {
+    ) async throws -> [String: RPCValue] {
         var params = params
         if let token = self.token {
             params.insert(.string(token), at: 0)
@@ -61,7 +61,7 @@ public class OpenSubtitles {
         let request = RPCRequest(methodName: method.rawValue, params: params)
         let response = try await makeRequest(request)
         guard let value = response.params.first(where: { $0.isStruct }),
-            let members = [String : RPCValue](value) else {
+            let members = [String: RPCValue](value) else {
                 throw Error.invalidResponse
         }
         return members
