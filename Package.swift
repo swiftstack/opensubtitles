@@ -24,14 +24,18 @@ let package = Package(
         .target(
             name: "OpenSubtitles",
             dependencies: [
-                "HTTP",
-                "DCompression",
-                "FileSystem",
+                .product(name: "HTTP", package: "http"),
                 .product(name: "XMLRPC", package: "RPC"),
-                .product(name: "Base64", package: "Radix")]),
+                .product(name: "Base64", package: "Radix"),
+                .product(name: "FileSystem", package: "filesystem"),
+                .product(name: "DCompression", package: "DCompression"),
+            ]),
         .executableTarget(
             name: "Tests/OpenSubtitles",
-            dependencies: ["OpenSubtitles", "Test"],
+            dependencies: [
+                .target(name: "OpenSubtitles"),
+                .product(name: "Test", package: "test"),
+            ],
             path: "Tests/OpenSubtitles",
             resources: [.copy("test_hash")]),
     ]
@@ -79,6 +83,6 @@ extension Package.Dependency {
     static func package(name: String, source: Source) -> Package.Dependency {
         return source == .local
             ? .package(name: name, path: source.url(for: name))
-            : .package(name: name, url: source.url(for: name), .branch("dev"))
+            : .package(url: source.url(for: name), branch: "dev")
     }
 }
